@@ -7,15 +7,15 @@ import android.util.Log;
 import android.widget.Button;
 
 import com.xk.iocdemo.R;
-import com.xk.iocdemo.utils.annotations.ContentView;
-import com.xk.iocdemo.utils.annotations.ViewInject;
+import com.xk.iocdemo.utils.annotations.InjectContentView;
+import com.xk.iocdemo.utils.annotations.InjectView;
 
 /**
  * Created by xuekai on 2017/11/14.
  */
-@ContentView(R.layout.activity_main1)
+@InjectContentView(R.layout.activity_main1)
 public class BaseActivity extends AppCompatActivity {
-    @ViewInject(R.id.b2)
+    @InjectView(R.id.b2)
     private Button bb;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

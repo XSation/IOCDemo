@@ -1,4 +1,4 @@
-package com.xk.iocdemo.utils.annotations;
+package com.xk.iocdemo.utils.annotations.test;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,10 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by xuekai on 2017/11/14.
+ * Created by xuekai on 2017/11/17.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface ContentView {
-    int value();
+@Target(ElementType.METHOD)
+public @interface Parent {
 }

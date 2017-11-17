@@ -3,11 +3,17 @@ package com.xk.iocdemo.utils;
 import android.app.Activity;
 import android.view.View;
 
-import com.xk.iocdemo.utils.annotations.ContentView;
-import com.xk.iocdemo.utils.annotations.ViewInject;
+import com.xk.iocdemo.utils.annotations.InjectContentView;
+import com.xk.iocdemo.utils.annotations.InjectView;
+import com.xk.iocdemo.utils.annotations.event.BaseEvent;
+import com.xk.iocdemo.utils.annotations.event.EventType;
+import com.xk.iocdemo.utils.annotations.event.InjectEvent;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +22,61 @@ import java.util.List;
  */
 
 public class InjectUtil {
+
+
     public static void inject(Activity activity) {
         injectLayout(activity);
         injectView(activity);
+        injectEvent(activity);
+    }
+
+    private static void injectEvent(final Activity activity) {
+        try {
+
+            Method[] methods = activity.getClass().getMethods();
+            for (final Method method : methods) {
+
+                InjectEvent injectEvent = method.getAnnotation(InjectEvent.class);
+                if (injectEvent == null) {
+                    continue;
+                }
+
+                //找到被InjectEvent注解的方法
+                //用户定义的方法
+                final Method realMethod = method;
+
+
+                //获取这个方法上的注解，就可以知道是要做什么
+                int[] ids = injectEvent.ids();
+                for (int id : ids) {
+                    View view = activity.findViewById(id);
+                    EventType event = injectEvent.event();
+                    BaseEvent baseEvent = EventType.class.getField(event.name()).getAnnotation(BaseEvent.class);
+                    final String callBackMethodName = baseEvent.callBackMethodName();
+                    String setListenerMethodName = baseEvent.setListenerMethodName();
+                    Class listener = baseEvent.listener();
+
+                    //代理这个接口（比如View.OnClickListener）
+                    Object listenerProxy = Proxy.newProxyInstance(activity.getClassLoader(), new Class[]{listener}, new InvocationHandler() {
+                        @Override
+                        public Object invoke(Object o, Method method, Object[] objects) throws Throwable {
+                            Object result = null;
+                            if (method.getName().equals(callBackMethodName)) {
+                                result = realMethod.invoke(activity, objects);
+                            }
+                            return result;
+                        }
+                    });
+                    //view设置监听的方法（比如setOnClickListener）
+                    Method setListenerMethod = View.class.getMethod(setListenerMethodName, listener);
+                    setListenerMethod.invoke(view, listenerProxy);
+
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -26,8 +84,8 @@ public class InjectUtil {
         List<Annotation> annotations = new ArrayList<>();
         getAllClassAnnotations(annotations, activity.getClass());
         for (Annotation annotation : annotations) {
-            if (annotation instanceof ContentView) {
-                activity.setContentView(((ContentView) annotation).value());
+            if (annotation instanceof InjectContentView) {
+                activity.setContentView(((InjectContentView) annotation).value());
                 break;
             }
         }
@@ -56,11 +114,11 @@ public class InjectUtil {
         List<Annotation2Field> annotation2Fields = new ArrayList<>();
         getAllFieldAnnotations(annotation2Fields, activity.getClass());
         for (Annotation2Field annotation2Field : annotation2Fields) {
-            if (annotation2Field.annotation instanceof ViewInject) {
-                View view = activity.findViewById(((ViewInject) annotation2Field.annotation).value());
+            if (annotation2Field.annotation instanceof InjectView) {
+                View view = activity.findViewById(((InjectView) annotation2Field.annotation).value());
                 annotation2Field.field.setAccessible(true);
                 try {
-                    annotation2Field.field.set(activity,view);
+                    annotation2Field.field.set(activity, view);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
