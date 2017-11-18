@@ -1,12 +1,13 @@
 package com.xk.ioclibrary;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 
 import com.xk.ioclibrary.annotations.InjectContentView;
 import com.xk.ioclibrary.annotations.InjectView;
 import com.xk.ioclibrary.annotations.event.BaseEvent;
-import com.xk.ioclibrary.annotations.event.EventType;
+import com.xk.ioclibrary.annotations.event.eventtype.EventType;
 import com.xk.ioclibrary.annotations.event.InjectEvent;
 
 import java.lang.annotation.Annotation;
@@ -50,8 +51,21 @@ public class InjectUtil {
                 int[] ids = injectEvent.ids();
                 for (int id : ids) {
                     View view = activity.findViewById(id);
-                    EventType event = injectEvent.event();
-                    BaseEvent baseEvent = EventType.class.getField(event.name()).getAnnotation(BaseEvent.class);
+                    Class<? extends EventType> event = injectEvent.event();
+
+                    Annotation[] annotations = event.getAnnotations();
+                    BaseEvent baseEvent = null;
+
+                    for (Annotation annotation : annotations) {
+                        if (annotation instanceof BaseEvent) {
+                            baseEvent = (BaseEvent) annotation;
+                            break;
+                        }
+                    }
+                    if (baseEvent == null) {
+                        Log.e("InjectUtil","injectEvent-->event注解错误");
+                        return;
+                    }
                     final String callBackMethodName = baseEvent.callBackMethodName();
                     String setListenerMethodName = baseEvent.setListenerMethodName();
                     Class listener = baseEvent.listener();

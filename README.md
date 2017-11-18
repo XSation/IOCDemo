@@ -1,3 +1,22 @@
+# 使用方法
+- 下载aar，放在libs目录下（上传到maven一直失败）
+- activity继承自BaseActivity
+- activity上用`@InjectContentView(R.layout.activity_main)`注解即可设置contentView
+- view类型的field用`@InjectView(R.id.b1)`注解
+- 方法上用`@InjectEvent(ids = {R.id.b2, R.id.b1}, event = CLICK.class)`注解（注意方法的参数和返回值需要与回调方法相同）
+- 支持自定义事件，详见下文
+
+
+
+
+
+
+
+
+
+
+
+# 笔记
 - 查找activity类上的注解的时候，要递归遍历到所有的父类，放入集合，第一个元素就是最子类的注解，对于setContentView，使用第一个就行
 - 查找类里的view的注解，也要递归遍历所有父类中的所有View
 - 获取注解的注解             
@@ -29,3 +48,27 @@ public enum EventType {
 
 # 放到单独的module，打出aar，方便使用
 aar已经放在根目录了
+
+TODO: ~~用class（好处是可以约束）或者class里的int（确定是不可以约束）或者int注解代替EventType，可以让使用者扩展事件类型~~已经支持
+
+# 支持用户自定义事件类型
+- 继承自EventType
+- 用BaseEvent注解
+- 使用的时候，injectEvent的第三个参数写这个class
+
+e.g.
+
+自定义EventType
+```java
+    @BaseEvent(setListenerMethodName = "addTextChangedListener", listener = TextWatcher.class, callBackMethodName = "beforeTextChanged")
+    public class EDITTEXT_BEFORETEXTCHANGED extends EventType {
+        //第一个参数表示设置监听的方法，第二个是类，第三个是回调方法
+    }
+```
+使用
+```java
+    @InjectEvent(ids = {R.id.et}, event = EDITTEXT_BEFORETEXTCHANGED.class)
+    public void vvv(CharSequence var1, int var2, int var3, int var4){
+        Toast.makeText(this, "before", Toast.LENGTH_SHORT).show();
+    }
+```

@@ -1,5 +1,7 @@
 package com.xk.ioclibrary.annotations.event;
 
+import com.xk.ioclibrary.annotations.event.eventtype.EventType;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -22,6 +24,6 @@ public @interface InjectEvent {
      * 事件类型
      * @return
      */
-    EventType event();
+    Class<? extends EventType> event();
 }
 

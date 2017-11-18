@@ -9,8 +9,10 @@ import android.widget.Toast;
 import com.xk.ioclibrary.BaseActivity;
 import com.xk.ioclibrary.annotations.InjectContentView;
 import com.xk.ioclibrary.annotations.InjectView;
-import com.xk.ioclibrary.annotations.event.EventType;
 import com.xk.ioclibrary.annotations.event.InjectEvent;
+import com.xk.ioclibrary.annotations.event.eventtype.CLICK;
+import com.xk.ioclibrary.annotations.event.eventtype.EDITTEXT_TEXT_CHANGE;
+import com.xk.ioclibrary.annotations.event.eventtype.LONGCLICK;
 
 @InjectContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
@@ -21,39 +23,28 @@ public class MainActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("MainActivity", "onCreate-->" + btn);
-//        EditText et;
-//        et.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//
-//            }
-//        });
+
     }
 
-    @InjectEvent(ids = {R.id.et}, event = EventType.EDITTEXT_TEXT_CHANGE)
+    @InjectEvent(ids = {R.id.et}, event = EDITTEXT_TEXT_CHANGE.class)
     public void textChange(CharSequence charSequence, int i, int i1, int i2) {
-        Toast.makeText(this, ""+charSequence+i+i1+i2, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "" + charSequence + i + i1 + i2, Toast.LENGTH_SHORT).show();
     }
 
 
-    @InjectEvent(ids = {R.id.b1}, event = EventType.LongClick)
-    public boolean lclick(View v) {
+    @InjectEvent(ids = {R.id.b1}, event = LONGCLICK.class)
+    public boolean myClick(View v) {
         Toast.makeText(this, "longclick" + v.getId(), Toast.LENGTH_SHORT).show();
-        return false;
+        return true;
     }
 
-    @InjectEvent(ids = {R.id.b2, R.id.b1}, event = EventType.Click)
-    public void click(View v) {
+    @InjectEvent(ids = {R.id.b2, R.id.b1}, event = CLICK.class)
+    public void longClick(View v) {
         Toast.makeText(this, "click" + v.getId(), Toast.LENGTH_SHORT).show();
+    }
+
+    @InjectEvent(ids = {R.id.et}, event = EDITTEXT_BEFORETEXTCHANGED.class)
+    public void vvv(CharSequence var1, int var2, int var3, int var4){
+        Toast.makeText(this, "before", Toast.LENGTH_SHORT).show();
     }
 }

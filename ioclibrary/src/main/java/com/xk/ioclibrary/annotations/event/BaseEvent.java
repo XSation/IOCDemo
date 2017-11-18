@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * Created by xuekai on 2017/11/17.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 public @interface BaseEvent {
     String setListenerMethodName();
 
