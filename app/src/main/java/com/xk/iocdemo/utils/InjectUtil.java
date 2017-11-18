@@ -68,7 +68,7 @@ public class InjectUtil {
                         }
                     });
                     //view设置监听的方法（比如setOnClickListener）
-                    Method setListenerMethod = View.class.getMethod(setListenerMethodName, listener);
+                    Method setListenerMethod = view.getClass().getMethod(setListenerMethodName, listener);
                     setListenerMethod.invoke(view, listenerProxy);
 
 

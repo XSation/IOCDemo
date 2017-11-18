@@ -21,8 +21,28 @@ public class MainActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("MainActivity", "onCreate-->" + btn);
+//        EditText et;
+//        et.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//
+//            }
+//        });
+    }
 
-
+    @InjectEvent(ids = {R.id.et}, event = EventType.EDITTEXT_TEXT_CHANGE)
+    public void textChange(CharSequence charSequence, int i, int i1, int i2) {
+        Toast.makeText(this, ""+charSequence+i+i1+i2, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -32,7 +52,7 @@ public class MainActivity extends BaseActivity {
         return false;
     }
 
-    @InjectEvent(ids = {R.id.b2,R.id.b1}, event = EventType.Click)
+    @InjectEvent(ids = {R.id.b2, R.id.b1}, event = EventType.Click)
     public void click(View v) {
         Toast.makeText(this, "click" + v.getId(), Toast.LENGTH_SHORT).show();
     }

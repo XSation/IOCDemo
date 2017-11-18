@@ -4,9 +4,20 @@
 `Event event = annotation.annotationType().getAnnotation(Event.class);`
 
 
-
+# 可以在EventType中添加新的事件
+```java
+public enum EventType {
+    @BaseEvent(setListenerMethodName = "setOnClickListener", listener = View.OnClickListener.class, callBackMethodName = "onClick")
+    Click,
+    @BaseEvent(setListenerMethodName = "setOnLongClickListener", listener = View.OnLongClickListener.class, callBackMethodName = "onLongClick")
+    LongClick,
+    @BaseEvent(setListenerMethodName = "addTextChangedListener", listener = TextWatcher.class, callBackMethodName = "onTextChanged")
+    EDITTEXT_TEXT_CHANGE
+}
+```
 # 事件注入
 > 动态代理：一句话概括就是，接口的方法被调用的时候，都可以被拦截到，然后就可以为所欲为了
+
 
 对事件的注入其实就是：
 - 正常情况下，为View设置一个事件的接口（OnClickListener），当用户触发一个事件的时候，接口方法就会被调用，通常情况下，我们只能在方法内知道这个方法被调用
