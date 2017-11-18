@@ -1,5 +1,5 @@
 # 使用方法
-- 下载aar，放在libs目录下（上传到maven一直失败）
+- 下载aar，放在libs目录下或者`compile 'com.xk:kinject:1.0.0'`
 - activity继承自BaseActivity
 - activity上用`@InjectContentView(R.layout.activity_main)`注解即可设置contentView
 - view类型的field用`@InjectView(R.id.b1)`注解
@@ -9,7 +9,8 @@
 
 
 
-
+# 注意
+- 如果使用了injectView和injectEvent，就一定要使用injectContentView（否则setcontentview会在前两者之后执行，后果可想而知）
 
 
 

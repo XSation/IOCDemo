@@ -14,15 +14,13 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface InjectEvent {
     /**
-     * view的id
+     * view's id
      *
-     * @return
      */
     int[] ids();
 
     /**
-     * 事件类型
-     * @return
+     * event type
      */
     Class<? extends EventType> event();
 }
