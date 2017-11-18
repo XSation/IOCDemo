@@ -1,4 +1,4 @@
-package com.xk.iocdemo.utils.annotations.event;
+package com.xk.ioclibrary.annotations.event;
 
 import android.text.TextWatcher;
 import android.view.View;

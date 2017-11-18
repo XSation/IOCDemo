@@ -1,13 +1,13 @@
-package com.xk.iocdemo.utils;
+package com.xk.ioclibrary;
 
 import android.app.Activity;
 import android.view.View;
 
-import com.xk.iocdemo.utils.annotations.InjectContentView;
-import com.xk.iocdemo.utils.annotations.InjectView;
-import com.xk.iocdemo.utils.annotations.event.BaseEvent;
-import com.xk.iocdemo.utils.annotations.event.EventType;
-import com.xk.iocdemo.utils.annotations.event.InjectEvent;
+import com.xk.ioclibrary.annotations.InjectContentView;
+import com.xk.ioclibrary.annotations.InjectView;
+import com.xk.ioclibrary.annotations.event.BaseEvent;
+import com.xk.ioclibrary.annotations.event.EventType;
+import com.xk.ioclibrary.annotations.event.InjectEvent;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

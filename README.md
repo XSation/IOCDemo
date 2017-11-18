@@ -26,3 +26,6 @@ public enum EventType {
     - 这样当用户触发这个接口方法的时候，代理处理者会知道，然后就可以为所欲为了
     - 例如，让handler持有activity的引用就可以通知activity了
 - 所以，其实这里跟activity是没有什么关系的
+
+# 放到单独的module，打出aar，方便使用
+aar已经放在根目录了

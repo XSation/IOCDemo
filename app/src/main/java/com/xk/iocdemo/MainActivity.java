@@ -6,11 +6,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.xk.iocdemo.utils.BaseActivity;
-import com.xk.iocdemo.utils.annotations.InjectContentView;
-import com.xk.iocdemo.utils.annotations.InjectView;
-import com.xk.iocdemo.utils.annotations.event.EventType;
-import com.xk.iocdemo.utils.annotations.event.InjectEvent;
+import com.xk.ioclibrary.BaseActivity;
+import com.xk.ioclibrary.annotations.InjectContentView;
+import com.xk.ioclibrary.annotations.InjectView;
+import com.xk.ioclibrary.annotations.event.EventType;
+import com.xk.ioclibrary.annotations.event.InjectEvent;
 
 @InjectContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity {

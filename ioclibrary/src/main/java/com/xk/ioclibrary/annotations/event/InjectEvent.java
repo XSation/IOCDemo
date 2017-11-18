@@ -1,4 +1,4 @@
-package com.xk.iocdemo.utils.annotations.event;
+package com.xk.ioclibrary.annotations.event;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
